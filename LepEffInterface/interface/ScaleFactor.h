@@ -4,6 +4,7 @@
 #include "TROOT.h"
 #include "TFile.h"
 #include "TH1.h"
+#include "TH2.h"
 #include "TGraphAsymmErrors.h"
 #include <iostream>
 #include <map>
@@ -22,6 +23,7 @@ class ScaleFactor {
 	TH1D * etaBinsH;
 
 	void  SetAxisBins(TGraphAsymmErrors*);
+	void  ShiftAxisBins(TGraphAsymmErrors*);
 	bool  check_SameBinning(TGraphAsymmErrors*, TGraphAsymmErrors*);
 	std::string FindEtaLabel(double, std::string);
     int FindPtBin( std::map<std::string, TGraphAsymmErrors *>, std::string, double);
@@ -29,7 +31,8 @@ class ScaleFactor {
 	public:
 		ScaleFactor(){}; 
 		void init_ScaleFactor(TString);
-		void init_ScaleFactor(TString,std::string);
+		void init_ScaleFactor(TString, std::string);
+		void init_EG_ScaleFactor(TString, bool);
 		~ ScaleFactor(){};
 		double get_EfficiencyData(double, double); //pt, eta
 		double get_EfficiencyMC(double, double);
