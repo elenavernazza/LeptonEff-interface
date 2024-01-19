@@ -2,7 +2,7 @@
 
 // used for legacy /grid_mnt/data__data.polcms/cms/vernazza/FrameworkNanoAOD/hhbbtt-analysis/nanoaod_base_analysis/data/cmssw/CMSSW_12_3_0_pre6/src/HTT-utilities/LepEffInterface/data/Electron/Run2016BtoH/Electron_Ele24_eff.root
 void ScaleFactor::init_ScaleFactor(TString inputRootFile) {
-
+	etaIsAbsolute = true;
 	TFile * fileIn = new TFile(inputRootFile, "read");
 	// if root file not found
 	if (fileIn->IsZombie() ) { std::cout << "ERROR in ScaleFactor::init_ScaleFactor(TString inputRootFile) from NTupleMaker/src/ScaleFactor.cc : ‎File " <<inputRootFile << " does not exist. Please check. " <<std::endl; exit(1); };
@@ -52,7 +52,7 @@ void ScaleFactor::init_EG_ScaleFactor(TString inputRootFile, bool isTrg){
   // retrieve eta binning (ugly, but should work fine)
   const int nbin_eta = isTrg? hSF->GetNbinsY():hSF->GetNbinsX();
   TString eta_bins[nbin_eta] = {""};
-  TString firstbinlabel = Form("EtaLt%.1f",isTrg?heffdat->GetYaxis()->GetBinLowEdge(2):hSF->GetXaxis()->GetBinLowEdge(2));
+  TString firstbinlabel = Form("EtaLt%.1f",isTrg?heffdat->GetYaxis()->GetBinUpEdge(1):hSF->GetXaxis()->GetBinUpEdge(1));
   TString lastbinlabel  = Form("EtaGt%.1f",isTrg?heffdat->GetYaxis()->GetBinLowEdge(nbin_eta):hSF->GetXaxis()->GetBinLowEdge(nbin_eta));
   firstbinlabel.ReplaceAll(".","p");
   lastbinlabel.ReplaceAll(".","p");
@@ -60,24 +60,24 @@ void ScaleFactor::init_EG_ScaleFactor(TString inputRootFile, bool isTrg){
   //create etabinning Histo
   etaBinsH = new TH1D("etaBinsH","",nbin_eta, isTrg?heffdat->GetYaxis()->GetXbins()->GetArray():hSF->GetXaxis()->GetXbins()->GetArray());
 
-  TFile* f = new TFile("/data_CMS/cms/vernazza/FrameworkNanoAOD/hhbbtt-analysis/eff_data_1.root","RECREATE");
+  //TFile* f = new TFile("/data_CMS/cms/vernazza/FrameworkNanoAOD/hhbbtt-analysis/eff_data_1.root","RECREATE");
 
   TString TetaLabel;
   TString GraphName;
-  for (int iBin=0; iBin<nbin_eta; iBin++) {
-    if (iBin==0) {
+  for (int iBin=1; iBin<=nbin_eta; iBin++) {
+    if (iBin==1) {
       TetaLabel = firstbinlabel;
     }
-    else if (iBin==nbin_eta-1) {
+    else if (iBin==nbin_eta) {
       TetaLabel = lastbinlabel;
     }
     else {
       TetaLabel = Form("Eta%.1fto%.1f",
-		       isTrg?heffdat->GetYaxis()->GetBinLowEdge(iBin+2):hSF->GetXaxis()->GetBinLowEdge(iBin+2),
-		       isTrg?heffdat->GetYaxis()->GetBinLowEdge(iBin+3):hSF->GetXaxis()->GetBinLowEdge(iBin+3));
+		       isTrg?heffdat->GetYaxis()->GetBinLowEdge(iBin):hSF->GetXaxis()->GetBinLowEdge(iBin),
+		       isTrg?heffdat->GetYaxis()->GetBinUpEdge(iBin):hSF->GetXaxis()->GetBinUpEdge(iBin));
       TetaLabel.ReplaceAll(".","p");
     }
-    etaBinsH->GetXaxis()->SetBinLabel(iBin+1,TetaLabel);
+    etaBinsH->GetXaxis()->SetBinLabel(iBin,TetaLabel);
 
     std::string etaLabel = (std::string)TetaLabel;
     //GraphName = TString(HistoBaseName)+"_"+etaLabel+"_Data";
@@ -85,11 +85,11 @@ void ScaleFactor::init_EG_ScaleFactor(TString inputRootFile, bool isTrg){
     TH1F *hslice_data;
     TH1F *hslice_mc;
     if (!isTrg) {
-      hslice_data = (TH1F*) hSF->ProjectionY("slicedata",iBin+1,iBin+1);
-      hslice_mc = (TH1F*) hSF->ProjectionY("slicemc",iBin+1,iBin+1);
+      hslice_data = (TH1F*) hSF->ProjectionY("slicedata",iBin,iBin);
+      hslice_mc = (TH1F*) hSF->ProjectionY("slicemc",iBin,iBin);
     } else {
-      hslice_data = (TH1F*) heffdat->ProjectionX("slicedata",iBin+1,iBin+1);
-      hslice_mc   = (TH1F*) heffmc->ProjectionX("slicemc",iBin+1,iBin+1);
+      hslice_data = (TH1F*) heffdat->ProjectionX("slicedata",iBin,iBin);
+      hslice_mc   = (TH1F*) heffmc->ProjectionX("slicemc",iBin,iBin);
 
     }
     const int nbin_pt = hslice_data->GetNbinsX();
@@ -107,25 +107,27 @@ void ScaleFactor::init_EG_ScaleFactor(TString inputRootFile, bool isTrg){
     double mc_pt_errhigh[nbin_pt] = {0};
     double mc_eff_errhigh[nbin_pt] = {0};
 
-    for (int iptbin=0; iptbin<nbin_pt; iptbin++) {
-      data_pt_nom[iptbin]      = hslice_data->GetXaxis()->GetBinCenter(iptbin);
-      data_eff_nom[iptbin]     = hslice_data->GetBinContent(iptbin);
-      data_pt_errlow[iptbin]   = hslice_data->GetXaxis()->GetBinLowEdge(iptbin);
-      data_pt_errhigh[iptbin]  = hslice_data->GetXaxis()->GetBinLowEdge(iptbin+1);
-      data_eff_errlow[iptbin]  = hslice_data->GetBinContent(iptbin) - hslice_data->GetBinError(iptbin);
-      data_eff_errhigh[iptbin] = hslice_data->GetBinContent(iptbin) + hslice_data->GetBinError(iptbin);
+    for (int iptbin=1; iptbin<=nbin_pt; iptbin++) {
+	  //iptbin=0 is the underflow bin, which we do not want to keep. iptbin=nbin_pt+1 is the overflow bin
+	  // TGraph uses difference between center value and bin edge as errlow and errhigh
+      data_pt_nom[iptbin-1]      = hslice_data->GetXaxis()->GetBinCenter(iptbin);
+      data_eff_nom[iptbin-1]     = hslice_data->GetBinContent(iptbin);
+      data_pt_errlow[iptbin-1]   = hslice_data->GetXaxis()->GetBinCenter(iptbin) - hslice_data->GetXaxis()->GetBinLowEdge(iptbin);
+      data_pt_errhigh[iptbin-1]  = hslice_data->GetXaxis()->GetBinUpEdge(iptbin) - hslice_data->GetXaxis()->GetBinCenter(iptbin);
+      data_eff_errlow[iptbin-1]  = hslice_data->GetBinError(iptbin);
+      data_eff_errhigh[iptbin-1] = hslice_data->GetBinError(iptbin);
       if (isTrg) {
-		mc_pt_nom[iptbin]      = hslice_mc->GetXaxis()->GetBinCenter(iptbin+1);
-		mc_eff_nom[iptbin]     = hslice_mc->GetBinContent(iptbin+1);
-		mc_pt_errlow[iptbin]   = hslice_mc->GetXaxis()->GetBinLowEdge(iptbin+1);
-		mc_pt_errhigh[iptbin]  = hslice_mc->GetXaxis()->GetBinLowEdge(iptbin+2);
-		mc_eff_errlow[iptbin]  = hslice_mc->GetBinContent(iptbin+1) - hslice_data->GetBinError(iptbin+1);
-		mc_eff_errhigh[iptbin] = hslice_mc->GetBinContent(iptbin+1) + hslice_data->GetBinError(iptbin+1);
+		mc_pt_nom[iptbin-1]      = hslice_mc->GetXaxis()->GetBinCenter(iptbin);
+		mc_eff_nom[iptbin-1]     = hslice_mc->GetBinContent(iptbin);
+		mc_pt_errlow[iptbin-1]   = hslice_mc->GetXaxis()->GetBinCenter(iptbin)-hslice_mc->GetXaxis()->GetBinLowEdge(iptbin);
+		mc_pt_errhigh[iptbin-1]  = hslice_mc->GetXaxis()->GetBinUpEdge(iptbin)-hslice_mc->GetXaxis()->GetBinCenter(iptbin);
+		mc_eff_errlow[iptbin-1]  = hslice_mc->GetBinError(iptbin);
+		mc_eff_errhigh[iptbin-1] = hslice_mc->GetBinError(iptbin);
       }
     }
 
     eff_data[etaLabel] = new TGraphAsymmErrors(nbin_pt, data_pt_nom, data_eff_nom, data_pt_errlow, data_pt_errhigh, data_eff_errlow, data_eff_errhigh);
-	eff_data[etaLabel]->Write(Form("%s",etaLabel));
+	//eff_data[etaLabel]->Write(Form("%s",etaLabel));
 	// std::cout << " Before: " << eff_data[etaLabel]->GetXaxis()->GetBinLowEdge(1) << ", " << eff_data[etaLabel]->GetXaxis()->GetBinUpEdge(nbin_pt) << std::endl;
     // ShiftAxisBins(eff_data[etaLabel]);
 	// std::cout << " After: " << eff_data[etaLabel]->GetXaxis()->GetBinLowEdge(1) << ", " << eff_data[etaLabel]->GetXaxis()->GetBinUpEdge(nbin_pt) << std::endl;
@@ -134,7 +136,7 @@ void ScaleFactor::init_EG_ScaleFactor(TString inputRootFile, bool isTrg){
     //   ShiftAxisBins(eff_mc[etaLabel]);
     }
   }
-  f->Close();
+  //f->Close();
 }
 
 void ScaleFactor::init_ScaleFactor(TString inputRootFile, std::string HistoBaseName) {
@@ -160,7 +162,7 @@ void ScaleFactor::init_ScaleFactor(TString inputRootFile, std::string HistoBaseN
 		eff_data[etaLabel] = (TGraphAsymmErrors*)fileIn->Get(TString(GraphName));
 		// std::cout << " Before: " << eff_data[etaLabel]->GetXaxis()->GetBinLowEdge(1) << ", " << eff_data[etaLabel]->GetXaxis()->GetBinUpEdge(eff_data[etaLabel]->GetN()) << std::endl;
 		SetAxisBins(eff_data[etaLabel]);
-		eff_data[etaLabel]->Write(etaLabel);
+		//eff_data[etaLabel]->Write(etaLabel.c_str());
 		// std::cout << " After: " << eff_data[etaLabel]->GetXaxis()->GetBinLowEdge(1) << ", " << eff_data[etaLabel]->GetXaxis()->GetBinUpEdge(eff_data[etaLabel]->GetN()) << std::endl;
 
 	  }
@@ -169,7 +171,7 @@ void ScaleFactor::init_ScaleFactor(TString inputRootFile, std::string HistoBaseN
 	  GraphName = HistoBaseName+etaLabel+"_MC";
 	  if (fileIn->GetListOfKeys()->Contains(TString(GraphName))) {
 		eff_mc[etaLabel] = (TGraphAsymmErrors*)fileIn->Get(TString(GraphName));
-		SetAxisBins(Form("%s",etaLabel));
+		SetAxisBins(eff_mc[etaLabel]);
 	  }
 	  else eff_mc[etaLabel] =0;
 
@@ -328,8 +330,8 @@ bool ScaleFactor::check_SameBinning(TGraphAsymmErrors* graph1, TGraphAsymmErrors
 
 
 std::string ScaleFactor::FindEtaLabel(double Eta, std::string Which){
-
-	Eta = fabs(Eta);
+	if (etaIsAbsolute)
+		Eta = fabs(Eta);
 	int binNumber = etaBinsH->GetXaxis()->FindFixBin(Eta);
 	std::string EtaLabel = etaBinsH->GetXaxis()->GetBinLabel(binNumber);
 	std::map<std::string, TGraphAsymmErrors*>::iterator it;
@@ -351,7 +353,9 @@ std::string ScaleFactor::FindEtaLabel(double Eta, std::string Which){
      return EtaLabel;
 }
 
-
+/**
+ * Computes the bin number for given pt. Output is in range [1; Npoints] (so shifted by 1 compared to points in TGraphAsymErrors)
+*/
 int ScaleFactor::FindPtBin( std::map<std::string, TGraphAsymmErrors *> eff_map, std::string EtaLabel, double Pt){
     int Npoints = eff_map[EtaLabel]->GetN();
 	double ptMAX = (eff_map[EtaLabel]->GetX()[Npoints-1])+(eff_map[EtaLabel]->GetErrorXhigh(Npoints-1));
@@ -365,7 +369,15 @@ int ScaleFactor::FindPtBin( std::map<std::string, TGraphAsymmErrors *> eff_map, 
 	}
 	// if pt is in range
 	else {
-		return eff_map[EtaLabel]->GetXaxis()->FindFixBin(Pt);
+		// this does not work (it is a TGraph, not a histogram. )
+		// return eff_map[EtaLabel]->GetXaxis()->FindFixBin(Pt);
+
+		for (int graphBin=0; graphBin < Npoints; graphBin++) {
+			if (Pt >= eff_map[EtaLabel]->GetPointX(graphBin) - eff_map[EtaLabel]->GetErrorXlow(graphBin)
+			  	&& Pt < eff_map[EtaLabel]->GetPointX(graphBin) + eff_map[EtaLabel]->GetErrorXhigh(graphBin))
+				return graphBin+1;
+		}
+		assert(false && "ScaleFactor::FindPtBin : TGraphAsymErrors has gaps : this should not happen");
 	} 
 }
 

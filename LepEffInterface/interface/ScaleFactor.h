@@ -21,6 +21,7 @@ class ScaleFactor {
 	std::map<std::string, TGraphAsymmErrors *> eff_mc;
 
 	TH1D * etaBinsH;
+	bool etaIsAbsolute; // If true, do abs(eta) before lookup. If false, negative eta are kept as is.
 
 	void  SetAxisBins(TGraphAsymmErrors*);
 	void  ShiftAxisBins(TGraphAsymmErrors*);
@@ -29,7 +30,7 @@ class ScaleFactor {
     int FindPtBin( std::map<std::string, TGraphAsymmErrors *>, std::string, double);
 
 	public:
-		ScaleFactor(){}; 
+		ScaleFactor() : etaIsAbsolute(false){}; 
 		void init_ScaleFactor(TString);
 		void init_ScaleFactor(TString, std::string);
 		void init_EG_ScaleFactor(TString, bool);
