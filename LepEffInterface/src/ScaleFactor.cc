@@ -177,7 +177,8 @@ void ScaleFactor::init_ScaleFactor(TString inputRootFile, std::string HistoBaseN
     }
   } 
   else { //efficiency maps in TH2F -> create eta map & TGraphAsymmErrors so that rest of the pipeline isn't disturbed
-
+	// NOT TESTED
+	std::cout << "ScaleFactor::init_ScaleFactor(TString inputRootFile, std::string HistoBaseName) with histoNaseName != ZMass : has not been tested. Might be buggy." << std::endl;
     // somewhat ugly as applying only to muon SFs
     TString effname_data = "_efficiencyData";
     TString effname_MC = "_efficiencyMC";
