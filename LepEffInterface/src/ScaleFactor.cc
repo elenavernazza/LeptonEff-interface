@@ -5,7 +5,7 @@ void ScaleFactor::init_ScaleFactor(TString inputRootFile) {
 	etaIsAbsolute = true;
 	TFile * fileIn = new TFile(inputRootFile, "read");
 	// if root file not found
-	if (fileIn->IsZombie() ) { std::cout << "ERROR in ScaleFactor::init_ScaleFactor(TString inputRootFile) from NTupleMaker/src/ScaleFactor.cc : ‎File " <<inputRootFile << " does not exist. Please check. " <<std::endl; exit(1); };
+	if (fileIn->IsZombie() ) { std::cout << "ERROR in ScaleFactor::init_ScaleFactor(TString inputRootFile) from NTupleMaker/src/ScaleFactor.cc : File " <<inputRootFile << " does not exist. Please check. " <<std::endl; exit(1); };
 	
 	std::string HistoBaseName = "ZMass";
 	etaBinsH = (TH1D*)fileIn->Get("etaBinsH"); 
@@ -59,8 +59,6 @@ void ScaleFactor::init_EG_ScaleFactor(TString inputRootFile, bool isTrg){
 
   //create etabinning Histo
   etaBinsH = new TH1D("etaBinsH","",nbin_eta, isTrg?heffdat->GetYaxis()->GetXbins()->GetArray():hSF->GetXaxis()->GetXbins()->GetArray());
-
-  //TFile* f = new TFile("/data_CMS/cms/vernazza/FrameworkNanoAOD/hhbbtt-analysis/eff_data_1.root","RECREATE");
 
   TString TetaLabel;
   TString GraphName;
@@ -136,7 +134,6 @@ void ScaleFactor::init_EG_ScaleFactor(TString inputRootFile, bool isTrg){
     //   ShiftAxisBins(eff_mc[etaLabel]);
     }
   }
-  //f->Close();
 }
 
 void ScaleFactor::init_ScaleFactor(TString inputRootFile, std::string HistoBaseName) {
@@ -145,10 +142,8 @@ void ScaleFactor::init_ScaleFactor(TString inputRootFile, std::string HistoBaseN
   // if root file not found
   if (fileIn->IsZombie() ) { std::cout << "ERROR in ScaleFactor::init_ScaleFactor(TString inputRootFile) from LepEffInterface/src/ScaleFactor.cc : File " <<inputRootFile << " does not exist. Please check. " <<std::endl; exit(1); };
 
-  TFile* f = new TFile("/data_CMS/cms/vernazza/FrameworkNanoAOD/hhbbtt-analysis/eff_data_2.root","RECREATE");
-
   if (HistoBaseName == "ZMass") { // efficiency file contains TGraphAsymmErrors + eta map (HTT group format for legacy)
-
+	etaIsAbsolute = true;
     etaBinsH = (TH1D*)fileIn->Get("etaBinsH");
     std::string etaLabel, GraphName;
     int nEtaBins = etaBinsH->GetNbinsX();
@@ -180,7 +175,6 @@ void ScaleFactor::init_ScaleFactor(TString inputRootFile, std::string HistoBaseN
 		if (!sameBinning) {std::cout<< "ERROR in ScaleFactor::init_ScaleFactor(TString inputRootFile) from LepEffInterface/src/ScaleFactor.cc . Can not proceed because ScaleFactor::check_SameBinning returned different pT binning for data and MC for eta label " << etaLabel << std::endl; exit(1); }; 
 	  }
     }
-	f->Close();
   } 
   else { //efficiency maps in TH2F -> create eta map & TGraphAsymmErrors so that rest of the pipeline isn't disturbed
 
@@ -281,7 +275,7 @@ void ScaleFactor::SetAxisBins(TGraphAsymmErrors* graph) {
 	graph->GetXaxis()->Set(NPOINTS, AXISBINS);
 	return;
 }
-
+/* Not exactly sure what this is supposed to be doing. DO not use unless you want to debug it
 void ScaleFactor::ShiftAxisBins(TGraphAsymmErrors* graph) {
 
 	std::cout << "BEFORE : ";
@@ -308,6 +302,7 @@ void ScaleFactor::ShiftAxisBins(TGraphAsymmErrors* graph) {
 	graph->GetXaxis()->Set(NPOINTS, AXISBINS);
 	return;
 }
+*/
 
 bool ScaleFactor::check_SameBinning(TGraphAsymmErrors* graph1, TGraphAsymmErrors* graph2){
 	bool haveSameBins = false;
@@ -339,14 +334,16 @@ std::string ScaleFactor::FindEtaLabel(double Eta, std::string Which){
 	if (Which == "data"){
 		it =  eff_data.find(EtaLabel);
 		if ( it == eff_data.end()) { 
-		std::cout << "ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "<< EtaLabel << " for data " << std::endl; exit(1);
+			throw std::runtime_error("ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
+				+ EtaLabel + " for data ");
 		}
 	}
 
 	else if (Which == "mc"){
 		it = eff_mc.find(EtaLabel);
 		if (it == eff_mc.end()) { 
-		std::cout << "ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "<< EtaLabel << " for MC " << std::endl; exit(1);
+			throw std::runtime_error("ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
+				+ EtaLabel + " for MC ");
 		}		
 	}
 	
