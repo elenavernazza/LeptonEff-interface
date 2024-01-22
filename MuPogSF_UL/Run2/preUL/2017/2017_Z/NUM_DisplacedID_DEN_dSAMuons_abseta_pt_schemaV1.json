@@ -1,0 +1,576 @@
+{
+    "schema_version": 1,
+    "corrections": [
+        {
+            "name": "NUM_DisplacedID_DEN_dSAMuons",
+            "description": "NUM_DisplacedID_DEN_dSAMuons",
+            "version": 1,
+            "inputs": [
+                {
+                    "name": "abseta",
+                    "type": "real"
+                },
+                {
+                    "name": "pt",
+                    "type": "real"
+                },
+                {
+                    "name": "uncertainties",
+                    "type": "string"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real"
+            },
+            "data": {
+                "nodetype": "binning",
+                "edges": [
+                    0.0,
+                    0.9,
+                    1.2,
+                    2.1,
+                    2.4
+                ],
+                "content": [
+                    {
+                        "nodetype": "binning",
+                        "edges": [
+                            15.0,
+                            20.0,
+                            25.0,
+                            30.0,
+                            40.0,
+                            50.0,
+                            60.0,
+                            120.0
+                        ],
+                        "content": [
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9422704859659239,
+                                    0.9451072908396819,
+                                    0.9394336810921659,
+                                    0.9448370757372717,
+                                    0.9397038961945761
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9343480739793643,
+                                    0.9449672701874668,
+                                    0.9237288777712617,
+                                    0.9360434435092584,
+                                    0.9326527044494701
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9363906341016158,
+                                    0.9389737914501848,
+                                    0.9338074767530469,
+                                    0.9377155948300618,
+                                    0.9350656733731698
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9335339160200792,
+                                    0.9356284312764689,
+                                    0.9314394007636895,
+                                    0.9341378103168552,
+                                    0.9329300217233032
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9325862252870027,
+                                    0.9349527041704929,
+                                    0.9302197464035126,
+                                    0.9331897275508909,
+                                    0.9319827230231146
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.927743051655411,
+                                    0.9288521238678615,
+                                    0.9266339794429606,
+                                    0.9289234430968538,
+                                    0.9265626602139683
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9272416965070115,
+                                    0.9303218916423315,
+                                    0.9241615013716915,
+                                    0.9290725532335603,
+                                    0.9254108397804627
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "nodetype": "binning",
+                        "edges": [
+                            15.0,
+                            20.0,
+                            25.0,
+                            30.0,
+                            40.0,
+                            50.0,
+                            60.0,
+                            120.0
+                        ],
+                        "content": [
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9632520621016413,
+                                    0.9680584302313089,
+                                    0.9584456939719737,
+                                    0.9680444745497176,
+                                    0.9584596496535649
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9658707218056984,
+                                    0.9691111904542318,
+                                    0.9626302531571651,
+                                    0.9693058175347861,
+                                    0.9624356260766108
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9638688327651429,
+                                    0.9676771688972322,
+                                    0.9600604966330536,
+                                    0.9663843354780788,
+                                    0.961353330052207
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9585460631587664,
+                                    0.960579191525115,
+                                    0.956512934792418,
+                                    0.9596683451919858,
+                                    0.957423781125547
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9589197886792085,
+                                    0.9615257534179729,
+                                    0.9563138239404441,
+                                    0.9599912396567926,
+                                    0.9578483377016244
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9547129859314801,
+                                    0.9572237046144944,
+                                    0.9522022672484659,
+                                    0.9569598834143316,
+                                    0.9524660884486287
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9550231390003369,
+                                    0.9588382907896552,
+                                    0.9512079872110185,
+                                    0.9584586425565281,
+                                    0.9515876354441456
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "nodetype": "binning",
+                        "edges": [
+                            15.0,
+                            20.0,
+                            25.0,
+                            30.0,
+                            40.0,
+                            50.0,
+                            60.0,
+                            120.0
+                        ],
+                        "content": [
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9788983422787049,
+                                    0.9810702266550397,
+                                    0.97672645790237,
+                                    0.980853585344929,
+                                    0.9769430992124808
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9780841954698569,
+                                    0.9822888942593635,
+                                    0.9738794966803503,
+                                    0.9795392619637076,
+                                    0.9766291289760063
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9751950484965515,
+                                    0.9764989361010787,
+                                    0.9738911608920242,
+                                    0.9763435530119594,
+                                    0.9740465439811435
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9752757664296277,
+                                    0.9770508535445863,
+                                    0.973500679314669,
+                                    0.9758241336946049,
+                                    0.9747273991646505
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9752555072201939,
+                                    0.9755653001458542,
+                                    0.9749457142945337,
+                                    0.9757417038196625,
+                                    0.9747693106207254
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9759963156711549,
+                                    0.9780537295231488,
+                                    0.9739389018191609,
+                                    0.9772394848746304,
+                                    0.9747531464676793
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.976784977889725,
+                                    0.9782497603387119,
+                                    0.975320195440738,
+                                    0.9785531505746426,
+                                    0.9750168052048073
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "nodetype": "binning",
+                        "edges": [
+                            15.0,
+                            20.0,
+                            25.0,
+                            30.0,
+                            40.0,
+                            50.0,
+                            60.0,
+                            120.0
+                        ],
+                        "content": [
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9520489885148014,
+                                    0.9596533981730787,
+                                    0.944444578856524,
+                                    0.9574760128881908,
+                                    0.9466219641414119
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9486639837602969,
+                                    0.9538603633661864,
+                                    0.9434676041544074,
+                                    0.9526003078327273,
+                                    0.9447276596878665
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.949919926978254,
+                                    0.9531930653586842,
+                                    0.9466467885978238,
+                                    0.952973580840295,
+                                    0.946866273116213
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9532699978054667,
+                                    0.9570079340889757,
+                                    0.9495320615219578,
+                                    0.9551073787884721,
+                                    0.9514326168224614
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9517007489959499,
+                                    0.9550429778586934,
+                                    0.9483585201332064,
+                                    0.9533308419557569,
+                                    0.9500706560361429
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9490273708769963,
+                                    0.953837496818489,
+                                    0.9442172449355036,
+                                    0.952901037546446,
+                                    0.9451537042075466
+                                ]
+                            },
+                            {
+                                "nodetype": "category",
+                                "keys": [
+                                    "nominal",
+                                    "up_syst",
+                                    "down_syst",
+                                    "up_stat",
+                                    "down_stat"
+                                ],
+                                "content": [
+                                    0.9445133036768273,
+                                    0.951558211265019,
+                                    0.9374683960886355,
+                                    0.9509112483894688,
+                                    0.9381153589641857
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
