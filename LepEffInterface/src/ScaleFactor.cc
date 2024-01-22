@@ -57,6 +57,9 @@ void ScaleFactor::init_EG_ScaleFactor(TString inputRootFile, bool isTrg){
   firstbinlabel.ReplaceAll(".","p");
   lastbinlabel.ReplaceAll(".","p");
 
+  // Check if there are negative eta values in the inputs
+  etaIsAbsolute = (isTrg?heffdat->GetYaxis()->GetBinLowEdge(1):hSF->GetXaxis()->GetBinLowEdge(1)) >= 0.;
+
   //create etabinning Histo
   etaBinsH = new TH1D("etaBinsH","",nbin_eta, isTrg?heffdat->GetYaxis()->GetXbins()->GetArray():hSF->GetXaxis()->GetXbins()->GetArray());
 
@@ -335,16 +338,20 @@ std::string ScaleFactor::FindEtaLabel(double Eta, std::string Which){
 	if (Which == "data"){
 		it =  eff_data.find(EtaLabel);
 		if ( it == eff_data.end()) { 
-			throw std::runtime_error("ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
-				+ EtaLabel + " for data ");
+			std::string error = "ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
+				+ EtaLabel + " for data ";
+			std::cerr << error << std::endl;
+			throw std::runtime_error(error); // sometimes throwing exception leads to segmentation fault, so we print the error first to stderr
 		}
 	}
 
 	else if (Which == "mc"){
 		it = eff_mc.find(EtaLabel);
 		if (it == eff_mc.end()) { 
-			throw std::runtime_error("ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
-				+ EtaLabel + " for MC ");
+			std::string error = "ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
+				+ EtaLabel + " for MC ";
+			std::cerr << error << std::endl;
+			throw std::runtime_error(error);
 		}		
 	}
 	
