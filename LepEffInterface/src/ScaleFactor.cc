@@ -333,20 +333,18 @@ std::string ScaleFactor::FindEtaLabel(double Eta, std::string Which){
 	if (Which == "data"){
 		it =  eff_data.find(EtaLabel);
 		if ( it == eff_data.end()) { 
-			std::string error = "ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
-				+ EtaLabel + " for data ";
-			std::cerr << error << std::endl;
-			throw std::runtime_error(error); // sometimes throwing exception leads to segmentation fault, so we print the error first to stderr
+			std::cerr << "ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
+				<< EtaLabel << " for data (eta=" << Eta << ")" << std::endl;
+			throw std::runtime_error("ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta)"); // sometimes throwing exception leads to segmentation fault, so we print the error first to stderr
 		}
 	}
 
 	else if (Which == "mc"){
 		it = eff_mc.find(EtaLabel);
 		if (it == eff_mc.end()) { 
-			std::string error = "ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
-				+ EtaLabel + " for MC ";
-			std::cerr << error << std::endl;
-			throw std::runtime_error(error);
+			std::cerr << "ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc : no object corresponding to eta label "
+				<< EtaLabel << " for MC  (eta=" << Eta << ")" << std::endl;
+			throw std::runtime_error("ERROR in ScaleFactor::get_EfficiencyData(double pt, double eta)");
 		}		
 	}
 	
@@ -364,7 +362,8 @@ int ScaleFactor::FindPtBin( std::map<std::string, TGraphAsymmErrors *> eff_map, 
  	if (Pt >= ptMAX ) return Npoints; 
 	// if pt is underflow, return nonsense number and warning
 	else if (Pt < ptMIN){ 
-		std::cout<< "WARNING in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc: pT too low (pt = " << Pt << "), min value is " << ptMIN << ". Returned efficiency =1. Weight will be 1. " << std::endl;
+		// THis happends in normal circumstances, the value is actually not used
+		//std::cout<< "WARNING in ScaleFactor::get_EfficiencyData(double pt, double eta) from LepEffInterface/src/ScaleFactor.cc: pT too low (pt = " << Pt << "), min value is " << ptMIN << ". Returned efficiency =1. Weight will be 1. " << std::endl;
 		return -99;
 	}
 	// if pt is in range
